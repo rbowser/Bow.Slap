@@ -6,7 +6,7 @@ namespace Bow.Slap
 {
     class Utils
     {
-        static bool IsSimpleType(Type t)
+        public static bool IsSimpleType(Type t)
         {
             return t.IsPrimitive
                 || t == typeof(string)

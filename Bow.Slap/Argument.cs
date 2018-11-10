@@ -1,51 +1,52 @@
-﻿using System;
+﻿using Bow.Slap.Interfaces;
+using System;
 using System.Linq;
 
 namespace Bow.Slap
 {
-    public class Argument<T>
+    public class ValueArgument<T> : IArgument<T>
     {
-        private string _name = string.Empty;
-        private string _short = string.Empty;
-        private string _long = string.Empty;
-        private string _description = string.Empty;
-        private Func<T, bool> _isValid = _ => true;
+        public string Name { get; private set; } = string.Empty;
+        public string Short { get; private set; } = string.Empty;
+        public string Long { get; private set; } = string.Empty;
+        public string Description { get; private set; } = string.Empty;
+        public Func<T, bool> IsValid { get; private set; } = _ => true;
 
-        public Argument(string name)
+        public ValueArgument(string name)
         {
             if (!Utils.IsSimpleType(typeof(T)))
                 // TODO better error message
                 throw new InvalidOperationException($"Arguments do not support {typeof(T)}.");
-            _name = name;
+            Name = name;
         }
 
-        public Argument<T> Description(string arg)
+        public ValueArgument<T> SetDescription(string arg)
         {
-            _description = arg;
+            Description = arg;
             return this;
         }
 
-        public Argument<T> Long(string arg)
+        public ValueArgument<T> SetLong(string arg)
         {
-            _long = arg;
+            Long = arg;
             return this;
         }
 
-        public Argument<T> Short(string arg)
+        public ValueArgument<T> SetShort(string arg)
         {
-            _short = arg;
+            Short = arg;
             return this;
         }
 
-        public Argument<T> Values(params T[] values)
+        public ValueArgument<T> ValidValues(params T[] values)
         {
-            _isValid = arg => values.Any(v => v.Equals(arg));
+            IsValid = arg => values.Any(v => v.Equals(arg));
             return this;
         }
 
-        public Argument<T> ValidityCheck(Func<T, bool> isValid)
+        public ValueArgument<T> ValidityCheck(Func<T, bool> isValid)
         {
-            _isValid = isValid;
+            IsValid = isValid;
             return this;
         }
     }
