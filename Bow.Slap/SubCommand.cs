@@ -3,7 +3,7 @@ using Bow.Slap.Interfaces;
 
 namespace Bow.Slap
 {
-	class SubCommand
+	public class SubCommand
 	{
 		private List<object> _arguments = new List<object>();
 
@@ -25,9 +25,9 @@ namespace Bow.Slap
 			return this;
 		}
 
-		public SubCommand Argument<T>(IArgument<T> argument)
+		public SubCommand Argument(IArgument argument)
 		{
-			_arguments.Add((argument, typeof(T)));
+			_arguments.Add(argument);
 			return this;
 		}
 	}

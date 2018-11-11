@@ -1,7 +1,10 @@
-﻿namespace Bow.Slap.Interfaces
+﻿using System;
+
+namespace Bow.Slap.Interfaces
 {
-	public interface IArgument<T>
+	public interface IArgument
 	{
+		Type Type { get; }
 		string Name { get; }
 		string Short { get; }
 		string Long { get; }

@@ -4,50 +4,59 @@ using System.Linq;
 
 namespace Bow.Slap
 {
-    class ValueArgument<T> : IArgument<T>
+    public class ValueArgument : IArgument
     {
-        public string Name { get; private set; }
+		public Type Type { get; }
+		public string Name { get; private set; } = string.Empty;
         public string Short { get; private set; } = string.Empty;
         public string Long { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
-        public Func<T, bool> IsValid { get; private set; } = _ => true;
+        public Func<object, bool> IsValid { get; private set; } = _ => true;
 
-        public ValueArgument(string name)
+        public ValueArgument(Type type)
         {
-            if (!Utils.IsSimpleType(typeof(T)))
+            if (!Utils.IsSimpleType(type))
                 // TODO better error message
-                throw new InvalidOperationException($"Arguments do not support {typeof(T)}.");
-            Name = name;
+                throw new InvalidOperationException($"Arguments do not support {type}.");
+            Type = type;
         }
 
-        public ValueArgument<T> SetDescription(string description)
+		public ValueArgument SetName(string name)
+		{
+			Name = name;
+			return this;
+		}
+
+        public ValueArgument SetDescription(string description)
         {
             Description = description;
             return this;
         }
 
-        public ValueArgument<T> SetLong(string @long)
+        public ValueArgument SetLong(string @long)
         {
             Long = @long;
             return this;
         }
 
-        public ValueArgument<T> SetShort(string @short)
+        public ValueArgument SetShort(string @short)
         {
             Short = @short;
             return this;
         }
 
-        public ValueArgument<T> ValidValues(params T[] values)
+        public ValueArgument ValidValues(params object[] values)
         {
+			if (values.Any(v => v.GetType() != Type)) throw new InvalidOperationException("Type of values don't match type of parameter.");
+
             IsValid = arg => values.Any(v => v.Equals(arg));
             return this;
         }
 
-        public ValueArgument<T> ValidityCheck(Func<T, bool> isValid)
-        {
-            IsValid = isValid;
-            return this;
-        }
+        //public ValueArgument ValidityCheck(Func<object, bool> isValid)
+        //{
+        //    IsValid = isValid;
+        //    return this;
+        //}
     }
 }

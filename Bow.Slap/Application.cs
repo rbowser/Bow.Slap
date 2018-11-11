@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using Bow.Slap.Interfaces;
 
 namespace Bow.Slap
 {
-	class Application
+	public class Application
 	{
-		private List<object> _arguments = new List<object>();
+		private List<IArgument> _arguments = new List<IArgument>();
 		private List<SubCommand> _subCommands = new List<SubCommand>();
 
 		public string Name { get; }
 		public string Version { get; private set; } = string.Empty;
 		public string Author { get; private set; } = string.Empty;
-		public IEnumerable<object> Arguments { get { return _arguments; } }
+		public IEnumerable<IArgument> Arguments { get { return _arguments; } }
 		public IEnumerable<SubCommand> SubCommands { get { return _subCommands; } }
+		public Configuration Configuration { get; private set; } = Configuration.Default;
 
 		public Application(string name)
 		{
@@ -33,11 +35,11 @@ namespace Bow.Slap
 			return this;
 		}
 
-		public Application Argument<T>(IArgument<T> argument)
+		public Application Argument(IArgument argument)
 		{
 			if (_subCommands.Any()) throw new InvalidOperationException("Cannot add arguments with subcommands.");
 
-			_arguments.Add((argument, typeof(T)));
+			_arguments.Add(argument);
 			return this;
 		}
 
@@ -47,6 +49,18 @@ namespace Bow.Slap
 
 			_subCommands.Add(subCommand);
 			return this;
+		}
+
+		public Application SetConfiguration(Configuration configuration)
+		{
+			Configuration = configuration;
+			return this;
+		}
+
+		public dynamic Parse(string[] args)
+		{
+			var parser = new Parser(Configuration);
+			return _arguments.Any() ? parser.Parse(args, _arguments) : parser.Parse(args, _subCommands);
 		}
 	}
 }

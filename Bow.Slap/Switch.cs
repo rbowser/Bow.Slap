@@ -1,18 +1,21 @@
-﻿using Bow.Slap.Interfaces;
+﻿using System;
+using Bow.Slap.Interfaces;
 
 namespace Bow.Slap
 {
-    class Switch : IArgument<bool>
+    public class Switch : IArgument
     {
-        public string Name { get; private set; }
+		public Type Type => typeof(bool);
+		public string Name { get; private set; } = string.Empty;
         public string Short { get; private set; } = string.Empty;
         public string Long { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
 
-        public Switch(string name)
-        {
-            Name = name;
-        }
+		public Switch SetName(string name)
+		{
+			Name = name;
+			return this;
+		}
 
         public Switch SetDescription(string description)
         {
