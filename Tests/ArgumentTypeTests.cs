@@ -215,7 +215,7 @@ namespace Tests
 
 			var result = app.Parse(new[] { "-d", "11/9/2018" });
 
-			Assert.IsTrue(result.date == new DateTime(2018,11,9));
+			Assert.IsTrue(result.date == new DateTime(2018, 11, 9));
 			Assert.IsTrue(result.date.GetType() == typeof(DateTime));
 		}
 
@@ -247,5 +247,71 @@ namespace Tests
 			Assert.IsTrue(result.kay == true);
 			Assert.IsTrue(result.kay.GetType() == typeof(bool));
 		}
+
+		[TestMethod]
+		public void Unsupported_Error_For_Object()
+		{
+			try
+			{
+				var app = new Application("Test")
+					.Argument(new ValueArgument(typeof(object)));
+
+				Assert.Fail("Should have thrown an exception.");
+			}
+			catch (InvalidOperationException ex)
+			{
+				Assert.IsTrue(ex.Message == "Arguments do not support System.Object.");
+			}
+		}
+
+		[TestMethod]
+		public void Unsupported_Error_For_TimeSpan()
+		{
+			try
+			{
+				var app = new Application("Test")
+					.Argument(new ValueArgument(typeof(TimeSpan)));
+
+				Assert.Fail("Should have thrown an exception.");
+			}
+			catch (InvalidOperationException ex)
+			{
+				Assert.IsTrue(ex.Message == "Arguments do not support System.TimeSpan.");
+			}
+		}
+
+		[TestMethod]
+		public void Unsupported_Error_For_DateTimeOffset()
+		{
+			try
+			{
+				var app = new Application("Test")
+					.Argument(new ValueArgument(typeof(DateTimeOffset)));
+
+				Assert.Fail("Should have thrown an exception.");
+			}
+			catch (InvalidOperationException ex)
+			{
+				Assert.IsTrue(ex.Message == "Arguments do not support System.DateTimeOffset.");
+			}
+		}
+
+		[TestMethod]
+		public void Unsupported_Error_For_CustomType()
+		{
+			try
+			{
+				var app = new Application("Test")
+					.Argument(new ValueArgument(typeof(CustomType)));
+
+				Assert.Fail("Should have thrown an exception.");
+			}
+			catch (InvalidOperationException ex)
+			{
+				Assert.IsTrue(ex.Message == "Arguments do not support non-built-in types.");
+			}
+		}
+
+		private class CustomType { }
 	}
 }

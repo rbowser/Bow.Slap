@@ -15,9 +15,17 @@ namespace Bow.Slap
 
         public ValueArgument(Type type)
         {
-            if (!Utils.IsSupportedType(type))
-                // TODO better error message
-                throw new InvalidOperationException($"Arguments do not support {type}.");
+			if (!Utils.IsSupportedType(type))
+			{
+				var assembly = type.Assembly.GetName().Name;
+				// Since this is .NET Core, it's System.Private.CoreLib. Is that always the case even when used from .NET Framework?
+				if (assembly != "System.Private.CoreLib" && assembly != "mscorlib")
+					throw new InvalidOperationException("Arguments do not support non-built-in types.");
+				else
+					// TODO better error message
+					throw new InvalidOperationException($"Arguments do not support {type}.");
+			}
+
             Type = type;
         }
 
