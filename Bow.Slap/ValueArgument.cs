@@ -6,7 +6,7 @@ namespace Bow.Slap
 {
     class ValueArgument<T> : IArgument<T>
     {
-        public string Name { get; private set; } = string.Empty;
+        public string Name { get; private set; }
         public string Short { get; private set; } = string.Empty;
         public string Long { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
@@ -20,21 +20,21 @@ namespace Bow.Slap
             Name = name;
         }
 
-        public ValueArgument<T> SetDescription(string arg)
+        public ValueArgument<T> SetDescription(string description)
         {
-            Description = arg;
+            Description = description;
             return this;
         }
 
-        public ValueArgument<T> SetLong(string arg)
+        public ValueArgument<T> SetLong(string @long)
         {
-            Long = arg;
+            Long = @long;
             return this;
         }
 
-        public ValueArgument<T> SetShort(string arg)
+        public ValueArgument<T> SetShort(string @short)
         {
-            Short = arg;
+            Short = @short;
             return this;
         }
 

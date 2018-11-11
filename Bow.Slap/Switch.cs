@@ -4,7 +4,7 @@ namespace Bow.Slap
 {
     class Switch : IArgument<bool>
     {
-        public string Name { get; private set; } = string.Empty;
+        public string Name { get; private set; }
         public string Short { get; private set; } = string.Empty;
         public string Long { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
@@ -14,21 +14,21 @@ namespace Bow.Slap
             Name = name;
         }
 
-        public Switch SetDescription(string arg)
+        public Switch SetDescription(string description)
         {
-            Description = arg;
+            Description = description;
             return this;
         }
 
-        public Switch SetLong(string arg)
+        public Switch SetLong(string @long)
         {
-            Long = arg;
+            Long = @long;
             return this;
         }
 
-        public Switch SetShort(string arg)
+        public Switch SetShort(string @short)
         {
-            Short = arg;
+            Short = @short;
             return this;
         }
     }
