@@ -15,7 +15,7 @@ namespace Bow.Slap
 
         public ValueArgument(Type type)
         {
-            if (!Utils.IsSimpleType(type))
+            if (!Utils.IsSupportedType(type))
                 // TODO better error message
                 throw new InvalidOperationException($"Arguments do not support {type}.");
             Type = type;

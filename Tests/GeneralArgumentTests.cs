@@ -1,37 +1,11 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bow.Slap;
 
 namespace Tests
 {
 	[TestClass]
-	public class UnitTest1
+	public class GeneralArgumentTests
 	{
-		[TestMethod]
-		public void Parses_Int_Argument()
-		{
-			var app = new Application("Test")
-				.Argument(new ValueArgument(typeof(int))
-								.SetShort("-n")
-								.SetName("number"));
-
-			var result = app.Parse(new[] { "-n", "6" });
-
-			Assert.IsTrue(result.number == 6);
-		}
-
-		[TestMethod]
-		public void Parses_String_Argument()
-		{
-			var app = new Application("Test")
-				.Argument(new ValueArgument(typeof(string))
-								.SetShort("-s")
-								.SetName("str"));
-
-			var result = app.Parse(new[] { "-s", "6" });
-
-			Assert.IsTrue(result.str == "6");
-		}
-
 		[TestMethod]
 		public void Parses_Multiple_Arguments_In_Order()
 		{
@@ -81,19 +55,6 @@ namespace Tests
 
 			Assert.IsTrue(result.number == 6);
 			Assert.IsTrue(result.dub == 2.0);
-		}
-
-		[TestMethod]
-		public void Parses_Single_Switch()
-		{
-			var app = new Application("Test")
-				.Argument(new Switch()
-							.SetShort("-k")
-							.SetName("kay"));
-
-			var result = app.Parse(new[] { "-k" });
-
-			Assert.IsTrue(result.kay == true);
 		}
 
 		[TestMethod]

@@ -27,14 +27,13 @@ namespace Bow.Slap
 				var declaredArg = arguments.First(a => a.Short == args[i]);
 				if (declaredArg is Switch)
 				{
-					//obj.Add(declaredArg.Name, true);
 					obj[declaredArg.Name] = true;
 				}
 				else
 				{
 					//TODO Error handling
 					i++;
-					var arg = Convert.ChangeType(args[i], declaredArg.Type);
+					var arg = Convert(args[i], declaredArg.Type);
 					obj[declaredArg.Name] = arg;
 				}
 
@@ -47,6 +46,17 @@ namespace Bow.Slap
 		public dynamic Parse(string[] args, IEnumerable<SubCommand> subCommands)
 		{
 			throw new NotImplementedException();
+		}
+
+		private object Convert(string arg, Type type)
+		{
+			if (type == typeof(Guid))
+				return new Guid(arg);
+
+			if (type == typeof(DateTime))
+				return DateTime.Parse(arg);
+
+			return System.Convert.ChangeType(arg, type);
 		}
 	}
 }
