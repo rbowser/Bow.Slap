@@ -18,19 +18,24 @@ namespace Bow.Slap
 		public dynamic Parse(string[] args, IEnumerable<IArgument> arguments)
 		{
 			var obj = new ExpandoObject() as IDictionary<string, object>;
+			foreach (var arg in arguments)
+				obj.Add(arg.Name, Utils.GetDefault(arg.Type));
+			
 			int i = 0;
 			while (i < args.Length)
 			{
 				var declaredArg = arguments.First(a => a.Short == args[i]);
 				if (declaredArg is Switch)
 				{
-					obj.Add(declaredArg.Name, true);
+					//obj.Add(declaredArg.Name, true);
+					obj[declaredArg.Name] = true;
 				}
 				else
 				{
+					//TODO Error handling
 					i++;
 					var arg = Convert.ChangeType(args[i], declaredArg.Type);
-					obj.Add(declaredArg.Name, arg);
+					obj[declaredArg.Name] = arg;
 				}
 
 				i++;
