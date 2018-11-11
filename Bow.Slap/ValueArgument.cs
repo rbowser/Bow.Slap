@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Bow.Slap
 {
-    public class ValueArgument<T> : IArgument<T>
+    class ValueArgument<T> : IArgument<T>
     {
         public string Name { get; private set; } = string.Empty;
         public string Short { get; private set; } = string.Empty;

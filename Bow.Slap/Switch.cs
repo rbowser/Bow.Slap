@@ -1,7 +1,4 @@
 ﻿using Bow.Slap.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bow.Slap
 {
